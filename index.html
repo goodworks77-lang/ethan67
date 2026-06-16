@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>白辰宇 - 關於我</title>
+    <style>
+        /* ===== CSS Variables ===== */
+        :root {
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-alt: #f1f5f9;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --accent: #ec4899;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
+            --radius: 16px;
+            --gradient: linear-gradient(135deg, #ec4899, #f472b6, #fbbf24);
+            --gradient-text: linear-gradient(135deg, #ec4899, #8b5cf6);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-alt: #334155;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #f472b6;
+            --border: #334155;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        /* ===== Reset ===== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            transition: background 0.3s, color 0.3s;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ===== Header ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        header.scrolled { box-shadow: var(--shadow); }
+
+        nav {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .theme-toggle {
+            background: var(--surface-alt);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: background 0.2s;
+        }
+        .theme-toggle:hover { background: var(--border); }
+
+        /* ===== Main Content ===== */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 24px 60px;
+        }
+
+        .about-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 48px 40px;
+            max-width: 650px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+        }
+
+        .about-avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--accent);
+            box-shadow: 0 8px 30px rgba(236, 72, 153, 0.3);
+            margin-bottom: 20px;
+        }
+
+        .about-card h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        .about-card h1 .gradient {
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+        }
+
+        .about-text {
+            text-align: left;
+            font-size: 1.1rem;
+            color: var(--text);
+            line-height: 2;
+            background: var(--surface-alt);
+            border-radius: 12px;
+            padding: 28px 24px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .about-text .hearts {
+            color: #ec4899;
+            font-size: 1.1rem;
+        }
+
+        .friend-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 24px;
+        }
+        .friend-tag {
+            background: var(--surface-alt);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: 1px solid var(--border);
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            text-align: center;
+            padding: 32px 24px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ===== Fade-in ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 600px) {
+            .about-card {
+                padding: 32px 20px;
+            }
+            .about-text {
+                font-size: 1rem;
+                padding: 20px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header id="header">
+        <nav>
+            <span class="nav-logo">白辰宇</span>
+            <button class="theme-toggle" id="themeToggle" aria-label="切換深淺色主題">🌙</button>
+        </nav>
+    </header>
+
+    <!-- Main -->
+    <main>
+        <div class="about-card fade-in" style="animation-delay: 0.2s;">
+            <img src="avatar.jpg" alt="白辰宇" class="about-avatar">
+            <h1>關於 <span class="gradient">白辰宇</span></h1>
+            <p class="about-subtitle">新北市立中和高級中學</p>
+
+            <div class="about-text">
+                <p><strong>白辰宇</strong>是一個就讀新北市立中和高級中學的小男娘，喜歡玩米米警察。</p>
+                <p>起初的白辰宇是個小傲嬌，在經過朋友（moyi、ethan、凱哥）的耐心指導下，小南梁終於不再否認自己是南梁的事實了<span class="hearts">❤️❤️❤️</span></p>
+            </div>
+
+            <div class="friend-tags">
+                <span class="friend-tag">南梁</span>
+                <span class="friend-tag">雌小鬼</span>
+                <span class="friend-tag">黑絲</span>
+                <span class="friend-tag">傲嬌</span>
+                <span class="friend-tag">病嬌</span>
+                <span class="friend-tag">無口</span>
+                <span class="friend-tag">天然呆</span>
+                <span class="friend-tag">戀愛腦</span>
+                <span class="friend-tag">小天使</span>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 白辰宇</p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        themeToggle.addEventListener('click', () => {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
+            themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+        });
+
+        // Header scroll shadow
+        window.addEventListener('scroll', () => {
+            document.getElementById('header').classList.toggle('scrolled', window.scrollY > 10);
+        });
+    </script>
+</body>
+</html>
