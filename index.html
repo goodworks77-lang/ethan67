@@ -338,12 +338,17 @@ const claw=document.getElementById('claw'),machine=document.getElementById('claw
 
 function initClawGame(){
     clawScore=0;clawCoins=10;clawPos=50;clawDropping=false;
+    if(clawInterval){clearInterval(clawInterval);clawInterval=null}
+    claw.classList.remove('dropping','rising');
+    claw.style.top='30px';
     document.getElementById('clawScore').textContent='0';
     document.getElementById('clawCoins').textContent='10';
     document.getElementById('dropBtn').disabled=false;
     document.getElementById('chute').innerHTML='';
-    updateClawPos();
     spawnPrizes();
+    requestAnimationFrame(()=>{
+        requestAnimationFrame(()=>updateClawPos());
+    });
 }
 
 function spawnPrizes(){
@@ -436,9 +441,6 @@ function resetClawGame(){
     if(overlay)overlay.remove();
     initClawGame();
 }
-
-// Init on load
-initClawGame();
 
 // ===== Game 2: Memory Match =====
 const EMOJIS=['🌸','🩷','💎','🌟','🍰','🎀','🦋','💜'];
