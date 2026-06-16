@@ -15,7 +15,6 @@
     <meta name="twitter:card" content="summary">
     <link rel="canonical" href="https://bai.ethan67.lol">
     <style>
-        /* ===== CSS Variables ===== */
         :root {
             --bg: #f8fafc;
             --surface: #ffffff;
@@ -23,14 +22,14 @@
             --text: #1e293b;
             --text-secondary: #64748b;
             --accent: #ec4899;
+            --accent2: #8b5cf6;
             --border: #e2e8f0;
-            --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
             --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
             --radius: 16px;
             --gradient: linear-gradient(135deg, #ec4899, #f472b6, #fbbf24);
             --gradient-text: linear-gradient(135deg, #ec4899, #8b5cf6);
         }
-
         [data-theme="dark"] {
             --bg: #0f172a;
             --surface: #1e293b;
@@ -38,250 +37,393 @@
             --text: #f1f5f9;
             --text-secondary: #94a3b8;
             --accent: #f472b6;
+            --accent2: #a78bfa;
             --border: #334155;
-            --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
             --shadow-lg: 0 10px 25px rgba(0,0,0,0.4);
         }
-
-        /* ===== Reset ===== */
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        body{
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
             background: var(--bg);
             color: var(--text);
-            line-height: 1.8;
-            transition: background 0.3s, color 0.3s;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            line-height:1.8;
+            transition:background .3s,color .3s;
+            min-height:100vh;
         }
 
-        /* ===== Header ===== */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
+        /* Header */
+        header{
+            position:fixed;top:0;left:0;right:0;z-index:1000;
             background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            transition: background 0.3s, box-shadow 0.3s;
+            border-bottom:1px solid var(--border);
+            backdrop-filter:blur(12px);
+            -webkit-backdrop-filter:blur(12px);
+            transition:background .3s,box-shadow .3s;
         }
-        header.scrolled { box-shadow: var(--shadow); }
+        header.scrolled{box-shadow:var(--shadow)}
+        nav{
+            max-width:800px;margin:0 auto;padding:0 24px;height:64px;
+            display:flex;align-items:center;justify-content:space-between;
+        }
+        .nav-logo{
+            font-size:1.4rem;font-weight:700;
+            background:var(--gradient-text);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+        }
+        .nav-tabs{display:flex;gap:4px;list-style:none}
+        .nav-tabs button{
+            background:none;border:none;color:var(--text-secondary);
+            padding:8px 16px;border-radius:8px;font-size:.95rem;font-weight:500;cursor:pointer;
+            transition:color .2s,background .2s;font-family:inherit;
+        }
+        .nav-tabs button:hover,.nav-tabs button.active{color:var(--accent);background:var(--surface-alt)}
+        .nav-right{display:flex;align-items:center;gap:12px}
+        .theme-toggle{
+            background:var(--surface-alt);border:1px solid var(--border);border-radius:50%;
+            width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+            cursor:pointer;font-size:1.2rem;transition:background .2s;
+        }
+        .theme-toggle:hover{background:var(--border)}
 
-        nav {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 24px;
-            height: 64px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .nav-logo {
-            font-size: 1.4rem;
-            font-weight: 700;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        /* Main */
+        main{max-width:800px;margin:0 auto;padding:100px 24px 60px}
 
-        .theme-toggle {
-            background: var(--surface-alt);
-            border: 1px solid var(--border);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.2rem;
-            transition: background 0.2s;
-        }
-        .theme-toggle:hover { background: var(--border); }
+        /* ===== About Page ===== */
+        .page{display:none}
+        .page.active{display:block}
 
-        /* ===== Main Content ===== */
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 100px 24px 60px;
+        .about-card{
+            background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+            padding:48px 40px;box-shadow:var(--shadow-lg);text-align:center;
         }
-
-        .about-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 48px 40px;
-            max-width: 650px;
-            width: 100%;
-            box-shadow: var(--shadow-lg);
-            text-align: center;
+        .about-avatar{
+            width:140px;height:140px;border-radius:50%;object-fit:cover;
+            border:4px solid var(--accent);box-shadow:0 8px 30px rgba(236,72,153,.3);margin-bottom:20px;
         }
-
-        .about-avatar {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--accent);
-            box-shadow: 0 8px 30px rgba(236, 72, 153, 0.3);
-            margin-bottom: 20px;
+        .about-card h1{font-size:2rem;font-weight:900;margin-bottom:8px}
+        .about-card h1 .gradient{
+            background:var(--gradient-text);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+        }
+        .about-subtitle{font-size:.9rem;color:var(--text-secondary);margin-bottom:28px}
+        .about-text{
+            text-align:left;font-size:1.1rem;line-height:2;
+            background:var(--surface-alt);border-radius:12px;padding:28px 24px;border-left:4px solid var(--accent);
+        }
+        .about-text .hearts{color:#ec4899;font-size:1.1rem}
+        .friend-tags{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:24px}
+        .friend-tag{
+            background:var(--surface-alt);color:var(--accent);padding:6px 16px;
+            border-radius:20px;font-size:.9rem;font-weight:600;border:1px solid var(--border);
         }
 
-        .about-card h1 {
-            font-size: 2rem;
-            font-weight: 900;
-            margin-bottom: 8px;
+        /* ===== Games Page ===== */
+        .games-header{text-align:center;margin-bottom:32px}
+        .games-header h2{
+            font-size:2rem;font-weight:900;margin-bottom:8px;
+            background:var(--gradient-text);
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
         }
-        .about-card h1 .gradient {
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+        .games-header p{color:var(--text-secondary)}
 
-        .about-subtitle {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            margin-bottom: 28px;
+        .game-card{
+            background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+            padding:32px;margin-bottom:24px;box-shadow:var(--shadow);
         }
+        .game-card h3{font-size:1.3rem;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+        .game-card .game-desc{color:var(--text-secondary);font-size:.9rem;margin-bottom:20px}
 
-        .about-text {
-            text-align: left;
-            font-size: 1.1rem;
-            color: var(--text);
-            line-height: 2;
-            background: var(--surface-alt);
-            border-radius: 12px;
-            padding: 28px 24px;
-            border-left: 4px solid var(--accent);
+        /* ===== Game 1: Catch Hearts ===== */
+        #catchGame{position:relative;width:100%;height:400px;background:var(--surface-alt);border-radius:12px;overflow:hidden;cursor:crosshair;user-select:none;-webkit-user-select:none}
+        #catchGame .heart{
+            position:absolute;font-size:2rem;pointer-events:none;
+            animation: fall linear forwards;
         }
+        @keyframes fall{
+            0%{transform:translateY(0) rotate(0deg);opacity:1}
+            80%{opacity:1}
+            100%{transform:translateY(400px) rotate(360deg);opacity:0}
+        }
+        .catch-hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+        .catch-hud .score{font-size:1.5rem;font-weight:900;color:var(--accent)}
+        .catch-hud .combo{font-size:1rem;color:var(--accent2);font-weight:700}
+        .catch-hud button{
+            background:var(--gradient);color:#fff;border:none;padding:10px 24px;
+            border-radius:10px;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit;
+        }
+        .catch-hud button:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(236,72,153,.4)}
 
-        .about-text .hearts {
-            color: #ec4899;
-            font-size: 1.1rem;
+        /* ===== Game 2: Memory Match ===== */
+        .memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin:0 auto}
+        .memory-card{
+            aspect-ratio:1;border-radius:12px;cursor:pointer;font-size:2rem;
+            display:flex;align-items:center;justify-content:center;
+            background:var(--accent);color:transparent;transition:all .3s;
+            border:2px solid var(--border);user-select:none;-webkit-user-select:none;
         }
+        .memory-card.flipped,.memory-card.matched{background:var(--surface-alt);color:inherit}
+        .memory-card.matched{background:#d1fae5;border-color:#6ee7b7;cursor:default}
+        .memory-stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+        .memory-stats span{font-weight:700}
+        .memory-stats button{
+            background:var(--gradient);color:#fff;border:none;padding:10px 24px;
+            border-radius:10px;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit;
+        }
+        .memory-stats button:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(236,72,153,.4)}
 
-        .friend-tags {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 24px;
-        }
-        .friend-tag {
-            background: var(--surface-alt);
-            color: var(--accent);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: 1px solid var(--border);
-        }
+        /* Footer */
+        footer{text-align:center;padding:32px 24px;color:var(--text-secondary);font-size:.85rem;border-top:1px solid var(--border)}
 
-        /* ===== Footer ===== */
-        footer {
-            text-align: center;
-            padding: 32px 24px;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-        }
+        /* Animations */
+        .fade-in{animation:fadeIn .6s ease-out forwards}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-        /* ===== Fade-in ===== */
-        .fade-in {
-            opacity: 0;
-            transform: translateY(24px);
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* ===== Responsive ===== */
-        @media (max-width: 600px) {
-            .about-card {
-                padding: 32px 20px;
-            }
-            .about-text {
-                font-size: 1rem;
-                padding: 20px 16px;
-            }
+        @media(max-width:600px){
+            .about-card{padding:32px 20px}
+            .about-text{font-size:1rem;padding:20px 16px}
+            .game-card{padding:20px}
+            #catchGame{height:320px}
+            .memory-grid{grid-template-columns:repeat(4,1fr);gap:6px;max-width:100%}
+            .memory-card{font-size:1.5rem}
+            nav{gap:8px}
+            .nav-tabs button{padding:8px 10px;font-size:.85rem}
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
-    <header id="header">
-        <nav>
-            <span class="nav-logo">白辰宇</span>
+<header id="header">
+    <nav>
+        <span class="nav-logo">白辰宇</span>
+        <div class="nav-right">
+            <ul class="nav-tabs">
+                <li><button class="active" onclick="switchPage('about')">🌸 關於我</button></li>
+                <li><button onclick="switchPage('games')">🎮 小遊戲</button></li>
+            </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="切換深淺色主題">🌙</button>
-        </nav>
-    </header>
-
-    <!-- Main -->
-    <main>
-        <div class="about-card fade-in" style="animation-delay: 0.2s;">
-            <img src="avatar.jpg" alt="白辰宇" class="about-avatar">
-            <h1>關於 <span class="gradient">白辰宇</span></h1>
-            <p class="about-subtitle">新北市立中和高級中學</p>
-
-            <div class="about-text">
-                <p><strong>白辰宇</strong>是一個就讀新北市立中和高級中學的小男娘，喜歡玩米米警察。</p>
-                <p>起初的白辰宇是個小傲嬌，在經過朋友（moyi、ethan、凱哥）的耐心指導下，小南梁終於不再否認自己是南梁的事實了<span class="hearts">❤️❤️❤️</span></p>
-            </div>
-
-            <div class="friend-tags">
-                <span class="friend-tag">南梁</span>
-                <span class="friend-tag">雌小鬼</span>
-                <span class="friend-tag">黑絲</span>
-                <span class="friend-tag">傲嬌</span>
-                <span class="friend-tag">病嬌</span>
-                <span class="friend-tag">無口</span>
-                <span class="friend-tag">天然呆</span>
-                <span class="friend-tag">戀愛腦</span>
-                <span class="friend-tag">小天使</span>
-            </div>
         </div>
-    </main>
+    </nav>
+</header>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 白辰宇</p>
-    </footer>
+<main>
 
-    <script>
-        // Theme Toggle
-        const themeToggle = document.getElementById('themeToggle');
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+<!-- ==================== 關於我 ==================== -->
+<div class="page active" id="page-about">
+    <div class="about-card fade-in">
+        <img src="avatar.jpg" alt="白辰宇" class="about-avatar">
+        <h1>關於 <span class="gradient">白辰宇</span></h1>
+        <p class="about-subtitle">新北市立中和高級中學</p>
+        <div class="about-text">
+            <p><strong>白辰宇</strong>是一個就讀新北市立中和高級中學的小男娘，喜歡玩米米警察。</p>
+            <p>起初的白辰宇是個小傲嬌，在經過朋友（moyi、ethan、凱哥）的耐心指導下，小南梁終於不再否認自己是南梁的事實了<span class="hearts">❤️❤️❤️</span></p>
+        </div>
+        <div class="friend-tags">
+            <span class="friend-tag">南梁</span><span class="friend-tag">雌小鬼</span><span class="friend-tag">黑絲</span>
+            <span class="friend-tag">傲嬌</span><span class="friend-tag">病嬌</span><span class="friend-tag">無口</span>
+            <span class="friend-tag">天然呆</span><span class="friend-tag">戀愛腦</span><span class="friend-tag">小天使</span>
+        </div>
+    </div>
+</div>
 
-        themeToggle.addEventListener('click', () => {
-            const current = document.documentElement.getAttribute('data-theme');
-            const next = current === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', next);
-            localStorage.setItem('theme', next);
-            themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
-        });
+<!-- ==================== 小遊戲 ==================== -->
+<div class="page" id="page-games">
+    <div class="games-header fade-in">
+        <h2>🎮 小遊戲區</h2>
+        <p>來玩點小遊戲吧～</p>
+    </div>
 
-        // Header scroll shadow
-        window.addEventListener('scroll', () => {
-            document.getElementById('header').classList.toggle('scrolled', window.scrollY > 10);
-        });
-    </script>
+    <!-- Game 1: Catch Hearts -->
+    <div class="game-card fade-in">
+        <h3>💕 接住愛心</h3>
+        <p class="game-desc">點擊掉落的愛心來得分！錯過一顆扣一條命，連擊加成更高分～</p>
+        <div class="catch-hud">
+            <span>💖 <span class="score" id="catchScore">0</span></span>
+            <span class="combo" id="catchCombo"></span>
+            <span>❤️ x<span id="catchLives">5</span></span>
+            <button onclick="startCatchGame()" id="catchBtn">開始遊戲</button>
+        </div>
+        <div id="catchGame"></div>
+    </div>
+
+    <!-- Game 2: Memory Match -->
+    <div class="game-card fade-in">
+        <h3>🧠 記憶翻牌</h3>
+        <p class="game-desc">翻開兩張牌，找到相同的配對。用最少步數完成！</p>
+        <div class="memory-stats">
+            <span>👆 步數: <span id="memMoves">0</span></span>
+            <span>⏱️ <span id="memTimer">0</span> 秒</span>
+            <button onclick="startMemoryGame()">🔄 重新開始</button>
+        </div>
+        <div class="memory-grid" id="memoryGrid"></div>
+    </div>
+</div>
+
+</main>
+
+<footer><p>&copy; 2026 白辰宇</p></footer>
+
+<script>
+// ===== Page Switch =====
+function switchPage(name){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById('page-'+name).classList.add('active');
+    document.querySelectorAll('.nav-tabs button').forEach(b=>b.classList.remove('active'));
+    event.target.classList.add('active');
+    if(name==='games'){
+        if(!catchGameStarted) startCatchGame();
+        startMemoryGame();
+    }
+}
+
+// ===== Theme =====
+const themeToggle=document.getElementById('themeToggle');
+const saved=localStorage.getItem('theme')||'light';
+document.documentElement.setAttribute('data-theme',saved);
+themeToggle.textContent=saved==='dark'?'☀️':'🌙';
+themeToggle.addEventListener('click',()=>{
+    const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',n);
+    localStorage.setItem('theme',n);
+    themeToggle.textContent=n==='dark'?'☀️':'🌙';
+});
+
+// Header shadow
+window.addEventListener('scroll',()=>{
+    document.getElementById('header').classList.toggle('scrolled',window.scrollY>10);
+});
+
+// ===== Game 1: Catch Hearts =====
+let catchScore=0,catchLives=5,catchCombo=0,catchInterval=null,catchStarted=false;
+const catchGame=document.getElementById('catchGame');
+
+function startCatchGame(){
+    catchScore=0;catchLives=5;catchCombo=0;catchStarted=true;
+    document.getElementById('catchScore').textContent='0';
+    document.getElementById('catchLives').textContent='5';
+    document.getElementById('catchCombo').textContent='';
+    document.getElementById('catchBtn').textContent='遊戲中...';
+    catchGame.innerHTML='';
+    if(catchInterval)clearInterval(catchInterval);
+    spawnHeart();
+    catchInterval=setInterval(spawnHeart,800);
+}
+
+function spawnHeart(){
+    if(catchLives<=0){endCatchGame();return}
+    const hearts=['💕','💖','💗','💝','💘','🩷','🌸','✨','💜','🩵'];
+    const el=document.createElement('span');
+    el.className='heart';
+    el.textContent=hearts[Math.floor(Math.random()*hearts.length)];
+    el.style.left=Math.random()*(catchGame.clientWidth-40)+'px';
+    el.style.top='-40px';
+    el.style.animationDuration=(2+Math.random()*2.5)+'s';
+    el.style.fontSize=(1.5+Math.random()*1.8)+'rem';
+    el.dataset.clicked='false';
+
+    el.addEventListener('pointerdown',function(e){
+        e.preventDefault();
+        if(el.dataset.clicked==='true')return;
+        el.dataset.clicked='true';
+        catchCombo++;
+        const bonus=catchCombo>=10?3:catchCombo>=5?2:1;
+        catchScore+=10*bonus;
+        document.getElementById('catchScore').textContent=catchScore;
+        const cc=document.getElementById('catchCombo');
+        cc.textContent=catchCombo>=3?`🔥 ${catchCombo} 連擊!`:'';
+        el.style.transform='scale(3)';
+        el.style.opacity='0';
+        el.style.transition='all .15s';
+        el.style.fontSize='3rem';
+        setTimeout(()=>el.remove(),150);
+    });
+
+    el.addEventListener('animationend',()=>{
+        if(el.dataset.clicked==='true')return;
+        catchLives--;
+        catchCombo=0;
+        document.getElementById('catchLives').textContent=Math.max(0,catchLives);
+        document.getElementById('catchCombo').textContent='💔';
+        setTimeout(()=>{document.getElementById('catchCombo').textContent=''},600);
+        el.remove();
+        if(catchLives<=0)endCatchGame();
+    });
+
+    catchGame.appendChild(el);
+}
+
+function endCatchGame(){
+    catchStarted=false;
+    if(catchInterval)clearInterval(catchInterval);
+    catchInterval=null;
+    document.getElementById('catchBtn').textContent='🔄 再玩一次';
+    document.getElementById('catchCombo').textContent='';
+    const final=document.createElement('div');
+    final.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);border-radius:12px;z-index:10;font-size:2rem;font-weight:900;color:#fff;flex-direction:column;gap:8px;';
+    final.innerHTML=`💖 最終得分: ${catchScore}<span style="font-size:1rem;font-weight:400">點擊「再玩一次」繼續</span>`;
+    catchGame.appendChild(final);
+}
+
+// ===== Game 2: Memory Match =====
+const EMOJIS=['🌸','🩷','💎','🌟','🍰','🎀','🦋','💜'];
+let memCards=[],memFlipped=[],memLocked=false,memMoves=0,memMatched=0,memTimer=0,memInterval=null;
+
+function startMemoryGame(){
+    memMoves=0;memMatched=0;memTimer=0;memFlipped=[];memLocked=false;
+    if(memInterval)clearInterval(memInterval);
+    document.getElementById('memMoves').textContent='0';
+    document.getElementById('memTimer').textContent='0';
+    memCards=[...EMOJIS,...EMOJIS].sort(()=>Math.random()-.5);
+    const grid=document.getElementById('memoryGrid');
+    grid.innerHTML='';
+    memCards.forEach((emoji,i)=>{
+        const card=document.createElement('div');
+        card.className='memory-card';
+        card.textContent=emoji;
+        card.dataset.index=i;
+        card.addEventListener('click',()=>flipCard(card,i));
+        grid.appendChild(card);
+    });
+    memInterval=setInterval(()=>{
+        memTimer++;
+        document.getElementById('memTimer').textContent=memTimer;
+    },1000);
+}
+
+function flipCard(card,i){
+    if(memLocked)return;
+    if(card.classList.contains('flipped')||card.classList.contains('matched'))return;
+    if(memFlipped.length>=2)return;
+    card.classList.add('flipped');
+    memFlipped.push({card,i,emoji:memCards[i]});
+    if(memFlipped.length===2){
+        memMoves++;
+        document.getElementById('memMoves').textContent=memMoves;
+        memLocked=true;
+        const[a,b]=memFlipped;
+        if(a.emoji===b.emoji){
+            a.card.classList.add('matched');
+            b.card.classList.add('matched');
+            memMatched+=2;
+            memFlipped=[];
+            memLocked=false;
+            if(memMatched===memCards.length){
+                clearInterval(memInterval);
+                setTimeout(()=>alert(`🎉 過關！\n步數: ${memMoves}  時間: ${memTimer} 秒`),400);
+            }
+        }else{
+            setTimeout(()=>{
+                a.card.classList.remove('flipped');
+                b.card.classList.remove('flipped');
+                memFlipped=[];
+                memLocked=false;
+            },700);
+        }
+    }
+}
+
+// Init memory on load
+startMemoryGame();
+</script>
 </body>
 </html>
