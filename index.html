@@ -134,25 +134,50 @@
         .game-card h3{font-size:1.3rem;margin-bottom:4px;display:flex;align-items:center;gap:8px}
         .game-card .game-desc{color:var(--text-secondary);font-size:.9rem;margin-bottom:20px}
 
-        /* ===== Game 1: Catch Hearts ===== */
-        #catchGame{position:relative;width:100%;height:400px;background:var(--surface-alt);border-radius:12px;overflow:hidden;cursor:crosshair;user-select:none;-webkit-user-select:none}
-        #catchGame .heart{
-            position:absolute;font-size:2rem;pointer-events:none;
-            animation: fall linear forwards;
+        /* ===== Game 1: Claw Machine ===== */
+        #clawMachine{position:relative;width:100%;max-width:500px;height:420px;background:linear-gradient(180deg, #1a1a2e, #16213e, #0f3460);border-radius:12px;overflow:hidden;margin:0 auto;user-select:none;-webkit-user-select:none;border:6px solid #e94560;box-shadow:inset 0 0 30px rgba(0,0,0,.5)}
+        #clawMachine .glass{position:absolute;inset:0;border:3px solid rgba(255,255,255,.15);border-radius:6px;pointer-events:none;z-index:5}
+        #clawMachine .prize-area{position:absolute;bottom:0;left:0;right:0;height:160px;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:8px;padding:10px 20px 20px}
+        #clawMachine .prize{font-size:2rem;transition:transform .4s;animation:bounce 2s ease-in-out infinite}
+        #clawMachine .prize:nth-child(odd){animation-delay:.3s}
+        #clawMachine .prize:nth-child(3n){animation-delay:.7s}
+        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+        #clawMachine .claw{
+            position:absolute;top:30px;width:50px;height:80px;z-index:3;
+            display:flex;flex-direction:column;align-items:center;
+            transition:left .08s linear;
         }
-        @keyframes fall{
-            0%{transform:translateY(0) rotate(0deg);opacity:1}
-            80%{opacity:1}
-            100%{transform:translateY(400px) rotate(360deg);opacity:0}
+        #clawMachine .claw-head{font-size:2.2rem;line-height:1}
+        #clawMachine .claw-arm{width:4px;height:40px;background:#e94560;border-radius:2px}
+        #clawMachine .claw-hand{font-size:1.5rem}
+        #clawMachine .claw.dropping{transition:top .5s ease-in,left .08s linear}
+        #clawMachine .claw.rising{transition:top .6s ease-out,left .08s linear}
+        #clawMachine .chute{
+            position:absolute;top:0;right:10px;width:60px;height:100%;z-index:2;
+            background:linear-gradient(180deg, rgba(233,69,96,.3), rgba(233,69,96,.1));
+            border-left:2px dashed rgba(233,69,96,.5);display:flex;
+            flex-direction:column-reverse;align-items:center;padding:8px 0;gap:2px;overflow:hidden;
         }
-        .catch-hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
-        .catch-hud .score{font-size:1.5rem;font-weight:900;color:var(--accent)}
-        .catch-hud .combo{font-size:1rem;color:var(--accent2);font-weight:700}
-        .catch-hud button{
+        .claw-hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+        .claw-hud .score{font-size:1.5rem;font-weight:900;color:var(--accent)}
+        .claw-hud .coins{font-size:1rem;color:#fbbf24;font-weight:700}
+        .claw-hud button{
             background:var(--gradient);color:#fff;border:none;padding:10px 24px;
             border-radius:10px;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit;
+            transition:transform .2s,box-shadow .2s;
         }
-        .catch-hud button:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(236,72,153,.4)}
+        .claw-hud button:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(236,72,153,.4)}
+        .claw-hud button:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+        .claw-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+        .claw-controls button{
+            padding:12px 20px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;
+            font-family:inherit;border:none;transition:transform .1s,box-shadow .2s;
+        }
+        .claw-controls button:active{transform:scale(.93)}
+        .ctrl-left{background:#8b5cf6;color:#fff}
+        .ctrl-right{background:#8b5cf6;color:#fff}
+        .ctrl-drop{background:#e94560;color:#fff;font-size:1.2rem!important;padding:12px 32px!important}
+        .ctrl-drop:disabled{opacity:.4;cursor:not-allowed}
 
         /* ===== Game 2: Memory Match ===== */
         .memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin:0 auto}
@@ -233,17 +258,30 @@
         <p>來玩點小遊戲吧～</p>
     </div>
 
-    <!-- Game 1: Catch Hearts -->
+    <!-- Game 1: Claw Machine -->
     <div class="game-card fade-in">
-        <h3>💕 接住愛心</h3>
-        <p class="game-desc">點擊掉落的愛心來得分！錯過一顆扣一條命，連擊加成更高分～</p>
-        <div class="catch-hud">
-            <span>💖 <span class="score" id="catchScore">0</span></span>
-            <span class="combo" id="catchCombo"></span>
-            <span>❤️ x<span id="catchLives">5</span></span>
-            <button onclick="startCatchGame()" id="catchBtn">開始遊戲</button>
+        <h3>🕹️ 夾娃娃機</h3>
+        <p class="game-desc">用按鈕移動爪子對準娃娃，按下「夾！」夾取！看看你能夾到多少～</p>
+        <div class="claw-hud">
+            <span>🎁 夾到: <span class="score" id="clawScore">0</span> 隻</span>
+            <span class="coins">🪙 x<span id="clawCoins">10</span></span>
+            <button onclick="resetClawGame()">🔄 重新開始</button>
         </div>
-        <div id="catchGame"></div>
+        <div class="claw-controls">
+            <button class="ctrl-left" onpointerdown="moveClaw(-1)" onpointerup="stopClaw()" onpointerleave="stopClaw()">◀ 左移</button>
+            <button class="ctrl-drop" id="dropBtn" onclick="dropClaw()">🎯 夾！</button>
+            <button class="ctrl-right" onpointerdown="moveClaw(1)" onpointerup="stopClaw()" onpointerleave="stopClaw()">右移 ▶</button>
+        </div>
+        <div id="clawMachine">
+            <div class="glass"></div>
+            <div class="chute" id="chute"></div>
+            <div class="claw" id="claw">
+                <span class="claw-head">⚙️</span>
+                <span class="claw-arm"></span>
+                <span class="claw-hand">🪝</span>
+            </div>
+            <div class="prize-area" id="prizeArea"></div>
+        </div>
     </div>
 
     <!-- Game 2: Memory Match -->
@@ -271,7 +309,7 @@ function switchPage(name){
     document.querySelectorAll('.nav-tabs button').forEach(b=>b.classList.remove('active'));
     event.target.classList.add('active');
     if(name==='games'){
-        if(!catchGameStarted) startCatchGame();
+        initClawGame();
         startMemoryGame();
     }
 }
@@ -293,76 +331,114 @@ window.addEventListener('scroll',()=>{
     document.getElementById('header').classList.toggle('scrolled',window.scrollY>10);
 });
 
-// ===== Game 1: Catch Hearts =====
-let catchScore=0,catchLives=5,catchCombo=0,catchInterval=null,catchStarted=false;
-const catchGame=document.getElementById('catchGame');
+// ===== Game 1: Claw Machine =====
+const PRIZES=['🧸','🐱','🐰','🦊','🐼','🐨','🐸','🦄','🐙','🐣','🍡','🎀','💝','🌸','🩷'];
+let clawScore=0,clawCoins=10,clawPos=50,clawDropping=false,clawInterval=null;
+const claw=document.getElementById('claw'),machine=document.getElementById('clawMachine');
 
-function startCatchGame(){
-    catchScore=0;catchLives=5;catchCombo=0;catchStarted=true;
-    document.getElementById('catchScore').textContent='0';
-    document.getElementById('catchLives').textContent='5';
-    document.getElementById('catchCombo').textContent='';
-    document.getElementById('catchBtn').textContent='遊戲中...';
-    catchGame.innerHTML='';
-    if(catchInterval)clearInterval(catchInterval);
-    spawnHeart();
-    catchInterval=setInterval(spawnHeart,800);
+function initClawGame(){
+    clawScore=0;clawCoins=10;clawPos=50;clawDropping=false;
+    document.getElementById('clawScore').textContent='0';
+    document.getElementById('clawCoins').textContent='10';
+    document.getElementById('dropBtn').disabled=false;
+    document.getElementById('chute').innerHTML='';
+    updateClawPos();
+    spawnPrizes();
 }
 
-function spawnHeart(){
-    if(catchLives<=0){endCatchGame();return}
-    const hearts=['💕','💖','💗','💝','💘','🩷','🌸','✨','💜','🩵'];
-    const el=document.createElement('span');
-    el.className='heart';
-    el.textContent=hearts[Math.floor(Math.random()*hearts.length)];
-    el.style.left=Math.random()*(catchGame.clientWidth-40)+'px';
-    el.style.top='-40px';
-    el.style.animationDuration=(2+Math.random()*2.5)+'s';
-    el.style.fontSize=(1.5+Math.random()*1.8)+'rem';
-    el.dataset.clicked='false';
-
-    el.addEventListener('pointerdown',function(e){
-        e.preventDefault();
-        if(el.dataset.clicked==='true')return;
-        el.dataset.clicked='true';
-        catchCombo++;
-        const bonus=catchCombo>=10?3:catchCombo>=5?2:1;
-        catchScore+=10*bonus;
-        document.getElementById('catchScore').textContent=catchScore;
-        const cc=document.getElementById('catchCombo');
-        cc.textContent=catchCombo>=3?`🔥 ${catchCombo} 連擊!`:'';
-        el.style.transform='scale(3)';
-        el.style.opacity='0';
-        el.style.transition='all .15s';
-        el.style.fontSize='3rem';
-        setTimeout(()=>el.remove(),150);
-    });
-
-    el.addEventListener('animationend',()=>{
-        if(el.dataset.clicked==='true')return;
-        catchLives--;
-        catchCombo=0;
-        document.getElementById('catchLives').textContent=Math.max(0,catchLives);
-        document.getElementById('catchCombo').textContent='💔';
-        setTimeout(()=>{document.getElementById('catchCombo').textContent=''},600);
-        el.remove();
-        if(catchLives<=0)endCatchGame();
-    });
-
-    catchGame.appendChild(el);
+function spawnPrizes(){
+    const area=document.getElementById('prizeArea');
+    area.innerHTML='';
+    const count=8+Math.floor(Math.random()*6);
+    for(let i=0;i<count;i++){
+        const p=document.createElement('span');
+        p.className='prize';
+        p.textContent=PRIZES[Math.floor(Math.random()*PRIZES.length)];
+        p.id='prize-'+i;
+        area.appendChild(p);
+    }
 }
 
-function endCatchGame(){
-    catchStarted=false;
-    if(catchInterval)clearInterval(catchInterval);
-    catchInterval=null;
-    document.getElementById('catchBtn').textContent='🔄 再玩一次';
-    document.getElementById('catchCombo').textContent='';
-    const final=document.createElement('div');
-    final.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);border-radius:12px;z-index:10;font-size:2rem;font-weight:900;color:#fff;flex-direction:column;gap:8px;';
-    final.innerHTML=`💖 最終得分: ${catchScore}<span style="font-size:1rem;font-weight:400">點擊「再玩一次」繼續</span>`;
-    catchGame.appendChild(final);
+function updateClawPos(){
+    const maxLeft=machine.clientWidth-60;
+    claw.style.left=(clawPos/100)*maxLeft+'px';
+    claw.style.top='30px';
 }
+
+function moveClaw(dir){
+    if(clawDropping)return;
+    if(clawInterval)clearInterval(clawInterval);
+    clawInterval=setInterval(()=>{
+        clawPos=Math.max(5,Math.min(95,clawPos+dir*2));
+        updateClawPos();
+    },40);
+}
+
+function stopClaw(){
+    if(clawInterval){clearInterval(clawInterval);clawInterval=null}
+}
+
+function dropClaw(){
+    if(clawDropping||clawCoins<=0)return;
+    stopClaw();
+    clawDropping=true;
+    clawCoins--;
+    document.getElementById('clawCoins').textContent=clawCoins;
+    document.getElementById('dropBtn').disabled=true;
+    claw.classList.add('dropping');
+    claw.style.top='310px';
+    claw.style.left=claw.style.left;
+
+    setTimeout(()=>{
+        const prizes=document.querySelectorAll('#prizeArea .prize');
+        let caught=null;
+        prizes.forEach(p=>{
+            const r=p.getBoundingClientRect(),cr=claw.getBoundingClientRect();
+            if(!caught&&Math.abs(cr.left+cr.width/2-(r.left+r.width/2))<35){
+                caught=p;
+            }
+        });
+
+        claw.classList.remove('dropping');
+        claw.classList.add('rising');
+        if(caught&&Math.random()<0.7){
+            clawScore++;
+            document.getElementById('clawScore').textContent=clawScore;
+            const clone=caught.cloneNode(true);
+            clone.style.fontSize='1.5rem';
+            clone.style.animation='none';
+            document.getElementById('chute').appendChild(clone);
+            caught.style.opacity='0';
+            caught.style.transform='scale(.3)';
+            setTimeout(()=>caught.remove(),400);
+        }
+        claw.style.top='30px';
+        claw.style.left=claw.style.left;
+
+        setTimeout(()=>{
+            claw.classList.remove('rising');
+            clawDropping=false;
+            if(clawCoins>0){
+                document.getElementById('dropBtn').disabled=false;
+            }else{
+                const final=document.createElement('div');
+                final.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);border-radius:8px;z-index:10;font-size:1.5rem;font-weight:900;color:#fff;flex-direction:column;gap:8px;text-align:center';
+                final.innerHTML=`🎉 夾到 ${clawScore} 隻娃娃！<span style="font-size:.9rem;font-weight:400">點「重新開始」再玩</span>`;
+                machine.appendChild(final);
+            }
+            updateClawPos();
+        },650);
+    },550);
+}
+
+function resetClawGame(){
+    const overlay=machine.querySelector('div[style]');
+    if(overlay)overlay.remove();
+    initClawGame();
+}
+
+// Init on load
+initClawGame();
 
 // ===== Game 2: Memory Match =====
 const EMOJIS=['🌸','🩷','💎','🌟','🍰','🎀','🦋','💜'];
