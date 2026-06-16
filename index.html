@@ -27,6 +27,7 @@
             --shadow: 0 1px 3px rgba(0,0,0,0.08);
             --shadow-lg: 0 10px 25px rgba(0,0,0,0.08);
             --radius: 16px;
+            --gold: #f59e0b;
             --gradient: linear-gradient(135deg, #ec4899, #f472b6, #fbbf24);
             --gradient-text: linear-gradient(135deg, #ec4899, #8b5cf6);
         }
@@ -79,6 +80,16 @@
         }
         .nav-tabs button:hover,.nav-tabs button.active{color:var(--accent);background:var(--surface-alt)}
         .nav-right{display:flex;align-items:center;gap:12px}
+
+        /* Coin badge */
+        .coin-badge{
+            display:flex;align-items:center;gap:6px;
+            background:linear-gradient(135deg,#fef3c7,#fde68a);
+            color:#92400e;padding:6px 14px;border-radius:20px;
+            font-weight:800;font-size:.95rem;border:2px solid #fbbf24;
+        }
+        [data-theme="dark"] .coin-badge{background:linear-gradient(135deg,#78350f,#92400e);color:#fde68a;border-color:#f59e0b}
+
         .theme-toggle{
             background:var(--surface-alt);border:1px solid var(--border);border-radius:50%;
             width:40px;height:40px;display:flex;align-items:center;justify-content:center;
@@ -119,13 +130,18 @@
         }
 
         /* ===== Games Page ===== */
-        .games-header{text-align:center;margin-bottom:32px}
-        .games-header h2{
-            font-size:2rem;font-weight:900;margin-bottom:8px;
+        .games-header{text-align:center;margin-bottom:28px}
+        .games-header h2{font-size:2rem;font-weight:900;margin-bottom:4px;
             background:var(--gradient-text);
             -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
         }
         .games-header p{color:var(--text-secondary)}
+        .coin-bar{
+            display:flex;align-items:center;justify-content:center;gap:8px;
+            margin-bottom:24px;font-size:1.3rem;font-weight:900;
+        }
+        .coin-bar .coin-icon{font-size:1.8rem}
+        .coin-bar .coin-amt{background:var(--gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:2rem}
 
         .game-card{
             background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
@@ -134,52 +150,7 @@
         .game-card h3{font-size:1.3rem;margin-bottom:4px;display:flex;align-items:center;gap:8px}
         .game-card .game-desc{color:var(--text-secondary);font-size:.9rem;margin-bottom:20px}
 
-        /* ===== Game 1: Claw Machine ===== */
-        #clawMachine{position:relative;width:100%;max-width:500px;height:420px;background:linear-gradient(180deg, #1a1a2e, #16213e, #0f3460);border-radius:12px;overflow:hidden;margin:0 auto;user-select:none;-webkit-user-select:none;border:6px solid #e94560;box-shadow:inset 0 0 30px rgba(0,0,0,.5)}
-        #clawMachine .glass{position:absolute;inset:0;border:3px solid rgba(255,255,255,.15);border-radius:6px;pointer-events:none;z-index:5}
-        #clawMachine .prize-area{position:absolute;bottom:0;left:0;right:0;height:160px;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:8px;padding:10px 20px 20px}
-        #clawMachine .prize{font-size:2rem;transition:transform .4s;animation:bounce 2s ease-in-out infinite}
-        #clawMachine .prize:nth-child(odd){animation-delay:.3s}
-        #clawMachine .prize:nth-child(3n){animation-delay:.7s}
-        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-        #clawMachine .claw{
-            position:absolute;top:30px;width:50px;height:80px;z-index:3;
-            display:flex;flex-direction:column;align-items:center;
-            transition:left .08s linear;
-        }
-        #clawMachine .claw-head{font-size:2.2rem;line-height:1}
-        #clawMachine .claw-arm{width:4px;height:40px;background:#e94560;border-radius:2px}
-        #clawMachine .claw-hand{font-size:1.5rem}
-        #clawMachine .claw.dropping{transition:top .5s ease-in,left .08s linear}
-        #clawMachine .claw.rising{transition:top .6s ease-out,left .08s linear}
-        #clawMachine .chute{
-            position:absolute;top:0;right:10px;width:60px;height:100%;z-index:2;
-            background:linear-gradient(180deg, rgba(233,69,96,.3), rgba(233,69,96,.1));
-            border-left:2px dashed rgba(233,69,96,.5);display:flex;
-            flex-direction:column-reverse;align-items:center;padding:8px 0;gap:2px;overflow:hidden;
-        }
-        .claw-hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px}
-        .claw-hud .score{font-size:1.5rem;font-weight:900;color:var(--accent)}
-        .claw-hud .coins{font-size:1rem;color:#fbbf24;font-weight:700}
-        .claw-hud button{
-            background:var(--gradient);color:#fff;border:none;padding:10px 24px;
-            border-radius:10px;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit;
-            transition:transform .2s,box-shadow .2s;
-        }
-        .claw-hud button:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(236,72,153,.4)}
-        .claw-hud button:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
-        .claw-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
-        .claw-controls button{
-            padding:12px 20px;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer;
-            font-family:inherit;border:none;transition:transform .1s,box-shadow .2s;
-        }
-        .claw-controls button:active{transform:scale(.93)}
-        .ctrl-left{background:#8b5cf6;color:#fff}
-        .ctrl-right{background:#8b5cf6;color:#fff}
-        .ctrl-drop{background:#e94560;color:#fff;font-size:1.2rem!important;padding:12px 32px!important}
-        .ctrl-drop:disabled{opacity:.4;cursor:not-allowed}
-
-        /* ===== Game 2: Memory Match ===== */
+        /* ===== Memory Match ===== */
         .memory-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:400px;margin:0 auto}
         .memory-card{
             aspect-ratio:1;border-radius:12px;cursor:pointer;font-size:2rem;
@@ -191,11 +162,51 @@
         .memory-card.matched{background:#d1fae5;border-color:#6ee7b7;cursor:default}
         .memory-stats{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px}
         .memory-stats span{font-weight:700}
-        .memory-stats button{
+        .memory-stats button,.memory-stats .mem-reward{font-family:inherit}
+        .btn-primary{
             background:var(--gradient);color:#fff;border:none;padding:10px 24px;
-            border-radius:10px;font-weight:700;cursor:pointer;font-size:.95rem;font-family:inherit;
+            border-radius:10px;font-weight:700;cursor:pointer;font-size:.95rem;
+            transition:transform .2s,box-shadow .2s;font-family:inherit;
         }
-        .memory-stats button:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(236,72,153,.4)}
+        .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(236,72,153,.4)}
+
+        .reward-pop{
+            display:inline-block;background:linear-gradient(135deg,#fef3c7,#fde68a);
+            color:#92400e;padding:6px 14px;border-radius:20px;font-weight:800;
+            font-size:.9rem;animation:popIn .5s ease-out;
+        }
+        @keyframes popIn{0%{transform:scale(.5);opacity:0}60%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+
+        /* ===== Photo Redemption ===== */
+        .photo-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+        .photo-slot{
+            background:var(--surface-alt);border:2px dashed var(--border);border-radius:var(--radius);
+            aspect-ratio:3/4;display:flex;flex-direction:column;align-items:center;
+            justify-content:center;gap:12px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;
+        }
+        .photo-slot:hover:not(.locked){border-color:var(--accent2)}
+        .photo-slot.locked:hover{border-color:var(--gold)}
+        .photo-slot .lock-icon{font-size:2.5rem}
+        .photo-slot .lock-label{font-size:.9rem;font-weight:700;color:var(--text-secondary)}
+        .photo-slot .lock-cost{
+            font-size:.85rem;font-weight:800;color:#92400e;
+            background:linear-gradient(135deg,#fef3c7,#fde68a);padding:4px 12px;border-radius:12px;
+        }
+        .photo-slot.unlocked{border:2px solid #6ee7b7;cursor:default}
+        .photo-slot.unlocked img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+        .photo-slot.unlocked .unlock-badge{
+            position:absolute;top:8px;right:8px;background:#6ee7b7;color:#065f46;
+            padding:2px 10px;border-radius:10px;font-size:.75rem;font-weight:800;z-index:1;
+        }
+
+        .toast{
+            position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:9999;
+            background:#1e293b;color:#fff;padding:12px 28px;border-radius:12px;
+            font-weight:700;font-size:1rem;animation:toastIn .3s ease-out,toastOut .3s 1.7s ease-in forwards;
+            pointer-events:none;
+        }
+        @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+        @keyframes toastOut{from{opacity:1}to{opacity:0}}
 
         /* Footer */
         footer{text-align:center;padding:32px 24px;color:var(--text-secondary);font-size:.85rem;border-top:1px solid var(--border)}
@@ -208,11 +219,12 @@
             .about-card{padding:32px 20px}
             .about-text{font-size:1rem;padding:20px 16px}
             .game-card{padding:20px}
-            #catchGame{height:320px}
             .memory-grid{grid-template-columns:repeat(4,1fr);gap:6px;max-width:100%}
             .memory-card{font-size:1.5rem}
+            .photo-grid{grid-template-columns:repeat(2,1fr);gap:10px}
             nav{gap:8px}
             .nav-tabs button{padding:8px 10px;font-size:.85rem}
+            .coin-badge{font-size:.8rem;padding:4px 10px}
         }
     </style>
 </head>
@@ -222,6 +234,7 @@
     <nav>
         <span class="nav-logo">白辰宇</span>
         <div class="nav-right">
+            <span class="coin-badge" id="coinBadge">🪙 <span id="coinDisplay">0</span></span>
             <ul class="nav-tabs">
                 <li><button class="active" onclick="switchPage('about')">🌸 關於我</button></li>
                 <li><button onclick="switchPage('games')">🎮 小遊戲</button></li>
@@ -255,45 +268,33 @@
 <div class="page" id="page-games">
     <div class="games-header fade-in">
         <h2>🎮 小遊戲區</h2>
-        <p>來玩點小遊戲吧～</p>
+        <p>玩記憶翻牌賺金幣，解鎖隱藏照片！</p>
+    </div>
+    <div class="coin-bar fade-in">
+        <span class="coin-icon">🪙</span>
+        <span class="coin-amt" id="gameCoinDisplay">0</span>
     </div>
 
-    <!-- Game 1: Claw Machine -->
-    <div class="game-card fade-in">
-        <h3>🕹️ 夾娃娃機</h3>
-        <p class="game-desc">用按鈕移動爪子對準娃娃，按下「夾！」夾取！看看你能夾到多少～</p>
-        <div class="claw-hud">
-            <span>🎁 夾到: <span class="score" id="clawScore">0</span> 隻</span>
-            <span class="coins">🪙 x<span id="clawCoins">10</span></span>
-            <button onclick="resetClawGame()">🔄 重新開始</button>
-        </div>
-        <div class="claw-controls">
-            <button class="ctrl-left" onpointerdown="moveClaw(-1)" onpointerup="stopClaw()" onpointerleave="stopClaw()">◀ 左移</button>
-            <button class="ctrl-drop" id="dropBtn" onclick="dropClaw()">🎯 夾！</button>
-            <button class="ctrl-right" onpointerdown="moveClaw(1)" onpointerup="stopClaw()" onpointerleave="stopClaw()">右移 ▶</button>
-        </div>
-        <div id="clawMachine">
-            <div class="glass"></div>
-            <div class="chute" id="chute"></div>
-            <div class="claw" id="claw">
-                <span class="claw-head">⚙️</span>
-                <span class="claw-arm"></span>
-                <span class="claw-hand">🪝</span>
-            </div>
-            <div class="prize-area" id="prizeArea"></div>
-        </div>
-    </div>
-
-    <!-- Game 2: Memory Match -->
+    <!-- Memory Match -->
     <div class="game-card fade-in">
         <h3>🧠 記憶翻牌</h3>
-        <p class="game-desc">翻開兩張牌，找到相同的配對。用最少步數完成！</p>
+        <p class="game-desc">翻牌配對完成可獲得金幣！步數越少、速度越快，獎勵越多～</p>
         <div class="memory-stats">
             <span>👆 步數: <span id="memMoves">0</span></span>
             <span>⏱️ <span id="memTimer">0</span> 秒</span>
-            <button onclick="startMemoryGame()">🔄 重新開始</button>
+            <span id="memReward"></span>
+            <button class="btn-primary" onclick="startMemoryGame()">🔄 重新開始</button>
         </div>
         <div class="memory-grid" id="memoryGrid"></div>
+    </div>
+
+    <!-- Photo Redemption -->
+    <div class="game-card fade-in">
+        <h3>📸 照片兌換區</h3>
+        <p class="game-desc">用金幣解鎖照片，解鎖後永久保留～</p>
+        <div class="photo-grid" id="photoGrid">
+            <!-- filled by JS -->
+        </div>
     </div>
 </div>
 
@@ -302,6 +303,89 @@
 <footer><p>&copy; 2026 白辰宇</p></footer>
 
 <script>
+// ===== Coin System (localStorage) =====
+function getCoins(){ return parseInt(localStorage.getItem('baichenyu_coins'))||0 }
+function addCoins(n){
+    const cur=getCoins();localStorage.setItem('baichenyu_coins',cur+n);
+    updateCoinDisplay();
+}
+function spendCoins(n){
+    const cur=getCoins();if(cur<n)return false;
+    localStorage.setItem('baichenyu_coins',cur-n);
+    updateCoinDisplay();
+    return true;
+}
+function updateCoinDisplay(){
+    const c=getCoins();
+    const el=document.getElementById('coinDisplay');
+    const el2=document.getElementById('gameCoinDisplay');
+    if(el)el.textContent=c;
+    if(el2)el2.textContent=c;
+}
+
+// ===== Photo Unlock System (localStorage) =====
+const PHOTOS=[
+    {id:1, cost:20, label:'照片 ①', emoji:'🌸'},
+    {id:2, cost:50, label:'照片 ②', emoji:'💕'},
+    {id:3, cost:100,label:'照片 ③', emoji:'✨'},
+    {id:4, cost:200,label:'照片 ④', emoji:'👑'},
+];
+function getUnlocked(){ return JSON.parse(localStorage.getItem('baichenyu_unlocked'))||[] }
+function isUnlocked(id){ return getUnlocked().includes(id) }
+function unlockPhoto(id){
+    const unlocked=getUnlocked();
+    if(unlocked.includes(id))return true;
+    unlocked.push(id);
+    localStorage.setItem('baichenyu_unlocked',JSON.stringify(unlocked));
+    renderPhotos();
+    return true;
+}
+
+function renderPhotos(){
+    const grid=document.getElementById('photoGrid');
+    if(!grid)return;
+    grid.innerHTML='';
+    PHOTOS.forEach(p=>{
+        const unlocked=isUnlocked(p.id);
+        const slot=document.createElement('div');
+        slot.className='photo-slot '+(unlocked?'unlocked':'locked');
+        if(unlocked){
+            slot.innerHTML=`
+                <span class="unlock-badge">✅ 已解鎖</span>
+                <img src="${p.id}.jpg" alt="照片${p.id}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+                <span style="display:none;font-size:3rem">${p.emoji}</span>
+            `;
+        }else{
+            slot.innerHTML=`
+                <span class="lock-icon">🔒</span>
+                <span class="lock-label">${p.label}</span>
+                <span class="lock-cost">🪙 ${p.cost}</span>
+            `;
+            slot.addEventListener('click',()=>tryUnlock(p));
+        }
+        grid.appendChild(slot);
+    });
+}
+
+function tryUnlock(photo){
+    if(isUnlocked(photo.id))return;
+    if(getCoins()<photo.cost){
+        showToast(`🪙 金幣不足！需要 ${photo.cost} 枚，目前有 ${getCoins()} 枚`);
+        return;
+    }
+    if(!spendCoins(photo.cost))return;
+    unlockPhoto(photo.id);
+    showToast(`🎉 解鎖成功！照片 ${photo.id} 已解鎖～`);
+}
+
+// ===== Toast =====
+function showToast(msg){
+    const t=document.createElement('div');
+    t.className='toast';t.textContent=msg;
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(),2100);
+}
+
 // ===== Page Switch =====
 function switchPage(name){
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -309,8 +393,11 @@ function switchPage(name){
     document.querySelectorAll('.nav-tabs button').forEach(b=>b.classList.remove('active'));
     event.target.classList.add('active');
     if(name==='games'){
-        initClawGame();
-        startMemoryGame();
+        updateCoinDisplay();
+        renderPhotos();
+        requestAnimationFrame(()=>{
+            requestAnimationFrame(()=>startMemoryGame());
+        });
     }
 }
 
@@ -331,118 +418,7 @@ window.addEventListener('scroll',()=>{
     document.getElementById('header').classList.toggle('scrolled',window.scrollY>10);
 });
 
-// ===== Game 1: Claw Machine =====
-const PRIZES=['🧸','🐱','🐰','🦊','🐼','🐨','🐸','🦄','🐙','🐣','🍡','🎀','💝','🌸','🩷'];
-let clawScore=0,clawCoins=10,clawPos=50,clawDropping=false,clawInterval=null;
-const claw=document.getElementById('claw'),machine=document.getElementById('clawMachine');
-
-function initClawGame(){
-    clawScore=0;clawCoins=10;clawPos=50;clawDropping=false;
-    if(clawInterval){clearInterval(clawInterval);clawInterval=null}
-    claw.classList.remove('dropping','rising');
-    claw.style.top='30px';
-    document.getElementById('clawScore').textContent='0';
-    document.getElementById('clawCoins').textContent='10';
-    document.getElementById('dropBtn').disabled=false;
-    document.getElementById('chute').innerHTML='';
-    spawnPrizes();
-    requestAnimationFrame(()=>{
-        requestAnimationFrame(()=>updateClawPos());
-    });
-}
-
-function spawnPrizes(){
-    const area=document.getElementById('prizeArea');
-    area.innerHTML='';
-    const count=8+Math.floor(Math.random()*6);
-    for(let i=0;i<count;i++){
-        const p=document.createElement('span');
-        p.className='prize';
-        p.textContent=PRIZES[Math.floor(Math.random()*PRIZES.length)];
-        p.id='prize-'+i;
-        area.appendChild(p);
-    }
-}
-
-function updateClawPos(){
-    const maxLeft=machine.clientWidth-60;
-    claw.style.left=(clawPos/100)*maxLeft+'px';
-    claw.style.top='30px';
-}
-
-function moveClaw(dir){
-    if(clawDropping)return;
-    if(clawInterval)clearInterval(clawInterval);
-    clawInterval=setInterval(()=>{
-        clawPos=Math.max(5,Math.min(95,clawPos+dir*2));
-        updateClawPos();
-    },40);
-}
-
-function stopClaw(){
-    if(clawInterval){clearInterval(clawInterval);clawInterval=null}
-}
-
-function dropClaw(){
-    if(clawDropping||clawCoins<=0)return;
-    stopClaw();
-    clawDropping=true;
-    clawCoins--;
-    document.getElementById('clawCoins').textContent=clawCoins;
-    document.getElementById('dropBtn').disabled=true;
-    claw.classList.add('dropping');
-    claw.style.top='310px';
-    claw.style.left=claw.style.left;
-
-    setTimeout(()=>{
-        const prizes=document.querySelectorAll('#prizeArea .prize');
-        let caught=null;
-        prizes.forEach(p=>{
-            const r=p.getBoundingClientRect(),cr=claw.getBoundingClientRect();
-            if(!caught&&Math.abs(cr.left+cr.width/2-(r.left+r.width/2))<35){
-                caught=p;
-            }
-        });
-
-        claw.classList.remove('dropping');
-        claw.classList.add('rising');
-        if(caught&&Math.random()<0.7){
-            clawScore++;
-            document.getElementById('clawScore').textContent=clawScore;
-            const clone=caught.cloneNode(true);
-            clone.style.fontSize='1.5rem';
-            clone.style.animation='none';
-            document.getElementById('chute').appendChild(clone);
-            caught.style.opacity='0';
-            caught.style.transform='scale(.3)';
-            setTimeout(()=>caught.remove(),400);
-        }
-        claw.style.top='30px';
-        claw.style.left=claw.style.left;
-
-        setTimeout(()=>{
-            claw.classList.remove('rising');
-            clawDropping=false;
-            if(clawCoins>0){
-                document.getElementById('dropBtn').disabled=false;
-            }else{
-                const final=document.createElement('div');
-                final.style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.6);border-radius:8px;z-index:10;font-size:1.5rem;font-weight:900;color:#fff;flex-direction:column;gap:8px;text-align:center';
-                final.innerHTML=`🎉 夾到 ${clawScore} 隻娃娃！<span style="font-size:.9rem;font-weight:400">點「重新開始」再玩</span>`;
-                machine.appendChild(final);
-            }
-            updateClawPos();
-        },650);
-    },550);
-}
-
-function resetClawGame(){
-    const overlay=machine.querySelector('div[style]');
-    if(overlay)overlay.remove();
-    initClawGame();
-}
-
-// ===== Game 2: Memory Match =====
+// ===== Memory Match Game =====
 const EMOJIS=['🌸','🩷','💎','🌟','🍰','🎀','🦋','💜'];
 let memCards=[],memFlipped=[],memLocked=false,memMoves=0,memMatched=0,memTimer=0,memInterval=null;
 
@@ -451,8 +427,10 @@ function startMemoryGame(){
     if(memInterval)clearInterval(memInterval);
     document.getElementById('memMoves').textContent='0';
     document.getElementById('memTimer').textContent='0';
+    document.getElementById('memReward').innerHTML='';
     memCards=[...EMOJIS,...EMOJIS].sort(()=>Math.random()-.5);
     const grid=document.getElementById('memoryGrid');
+    if(!grid)return;
     grid.innerHTML='';
     memCards.forEach((emoji,i)=>{
         const card=document.createElement('div');
@@ -487,7 +465,17 @@ function flipCard(card,i){
             memLocked=false;
             if(memMatched===memCards.length){
                 clearInterval(memInterval);
-                setTimeout(()=>alert(`🎉 過關！\n步數: ${memMoves}  時間: ${memTimer} 秒`),400);
+                // Award coins based on performance
+                let reward=10; // base
+                if(memMoves<=12)reward+=10; // perfect
+                else if(memMoves<=16)reward+=5; // good
+                if(memTimer<30)reward+=10; // fast
+                else if(memTimer<60)reward+=5;
+                addCoins(reward);
+                document.getElementById('memReward').innerHTML=`<span class="reward-pop">🪙 +${reward}</span>`;
+                updateCoinDisplay();
+                renderPhotos();
+                setTimeout(()=>alert(`🎉 過關！\n步數: ${memMoves}  時間: ${memTimer} 秒\n獲得 🪙 ${reward} 枚金幣！`),400);
             }
         }else{
             setTimeout(()=>{
@@ -500,8 +488,9 @@ function flipCard(card,i){
     }
 }
 
-// Init memory on load
-startMemoryGame();
+// ===== Init =====
+updateCoinDisplay();
+renderPhotos();
 </script>
 </body>
 </html>
